@@ -1,0 +1,12 @@
+<template name="NewPracticalProblem">
+	<div class="new-method-container">
+		{{#autoForm collection="PracticalProblems" id="insertPracticalProblemForm" type="insert" class="new-method-form"}}
+  			{{> afQuickFields}}
+  			<div>
+      			<button type="submit" class="btn btn-primary">Submit</button>
+			    <button type="button" class="btn btn-default cancel">Cancel</button>
+			    <button type="reset" class="btn btn-default">Reset</button>
+			</div>
+		{{/autoForm}}
+	</div>
+</template>

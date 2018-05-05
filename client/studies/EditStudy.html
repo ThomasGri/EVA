@@ -1,0 +1,10 @@
+<template name="EditStudy">
+{{#if Template.subscriptionsReady}}
+  {{> wizard id="editStudyWizard" route="edit-study" steps=steps stepsTemplate="steps_semanticUI" persist="true"}}
+    {{else}}
+      <p>Loading</p>
+    {{/if}}
+</template>
+
+
+

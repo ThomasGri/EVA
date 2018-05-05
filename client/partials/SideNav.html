@@ -1,0 +1,26 @@
+<template name="SideNav">
+	<nav class="side-nav">
+		<ul>
+			<li>
+				<a href="/my-studies"><i class="fa fa-certificate"></i> My Studies</a>
+			</li>
+			<li>
+				<a href="/method-collection"><i class="fa fa-wrench"></i> Methods</a>
+			</li>
+			<li>
+				<a href="/study-collection"><i class="fa fa-list"></i> Study Collection</a>
+			</li>
+			<li>
+				<a href="/task-collection"> Task Collection</a>
+			</li>
+			<li>
+				<a href="/tool-collection"> Tool Collection</a>
+			</li>
+			{{#if isInRole 'admin'}}
+			<li>
+				<a href="/admin">Admin</a>
+			</li>
+			{{/if}}
+		</ul>
+	</nav>
+</template>

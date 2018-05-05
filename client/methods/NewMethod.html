@@ -1,0 +1,57 @@
+<template name="NewMethod">
+{{#if Template.subscriptionsReady}}
+  {{> wizard id="newMethodWizard" route="new-method" steps=steps stepsTemplate="steps_semanticUI" persist="true"}}
+    {{else}}
+      <p>Loading</p>
+    {{/if}}
+</template>
+
+<template name="MethodInformation">
+   {{#autoForm id="information-form" doc=step.data schema=step.schema}}
+
+  {{#each afFieldNames}}
+    {{> afQuickField name=this.name options=afOptionsFromSchema}}
+  {{/each}}
+
+    {{> wizardButtons}}
+    
+  {{/autoForm}}
+</template>
+
+<template name="MethodProblems">
+   {{#autoForm id="problems-form" doc=step.data schema=step.schema}}
+
+  {{#each afFieldNames}}
+    {{> afQuickField name=this.name options=afOptionsFromSchema}}
+  {{/each}}
+
+    {{> wizardButtons}}
+
+  {{/autoForm}}
+</template>
+
+<template name="MethodTools">
+   {{#autoForm id="tools-form" doc=step.data schema=step.schema}}
+
+ {{#each afFieldNames}}
+    {{> afQuickField name=this.name options=afOptionsFromSchema}}
+  {{/each}}
+
+    {{> wizardButtons}}
+
+    {{select2update}}
+
+  {{/autoForm}}
+</template>
+
+<template name="MethodAdditional">
+   {{#autoForm id="additional-form" doc=step.data schema=step.schema}}
+
+  {{#each afFieldNames}}
+    {{> afQuickField name=this.name options=afOptionsFromSchema}}
+  {{/each}}
+
+    {{> wizardButtons}}
+
+  {{/autoForm}}
+</template>

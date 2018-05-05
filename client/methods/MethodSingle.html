@@ -1,0 +1,17 @@
+<template name="MethodSingle">
+	<div class="new-method-container">
+		{{#if Template.subscriptionsReady}}
+		{{#autoForm collection="Methods" schema="MethodSchema" id="insertMethodForm" type="update" class="new-method-form"}}
+
+  			{{> afQuickFields}}
+  			<div>
+
+			    <button type="button" class="btn btn-default cancel">Back</button>
+
+			</div>
+		{{/autoForm}}
+		{{else}}
+			<p>Loading</p>
+		{{/if}}
+	</div>
+</template>

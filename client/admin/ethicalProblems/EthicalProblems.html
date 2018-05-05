@@ -1,0 +1,23 @@
+<template name="EthicalProblems">
+	<h1>In this Tab you can browse existing Ethical Problems and add new ones.</h1>
+	<button id="new_ethicalProblem" class="btn-primary toggle-menu">Add new Ethical Problem </button>
+
+	<section class="methods">
+		{{#if Template.subscriptionsReady}}
+			{{> reactiveTable class="table table-striped table-bordered table-hover" settings=settings collection=ethicalProblems}}
+		{{else}}
+			<p>Loading</p>
+		{{/if}}
+	</section>
+
+<!--	<section class="methods">
+		{{#if Template.subscriptionsReady}}
+			{{#each methods}}
+				{{> Method}}
+			{{/each}}
+		{{else}}
+			<p>Loading</p>
+		{{/if}}
+	</section>
+-->
+</template>
