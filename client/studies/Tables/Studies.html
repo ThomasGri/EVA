@@ -1,0 +1,14 @@
+<template name="Studies">
+	<h1>Study Collection</h1>
+	<p style="font-size:16px;">In this screen you can see all studies created with EVA which are publicly visible. You can browse them for inspiration.</p>
+	
+	<button id="new_study" class="btn-primary toggle-menu">Add new Study </button>
+	<section class="studies">
+		{{#if Template.subscriptionsReady}}
+			{{> reactiveTable class="table table-striped table-bordered table-hover" settings=settings collection=studies}}
+		{{else}}
+			<p>Loading</p>
+		{{/if}}
+	</section>
+</template>
+

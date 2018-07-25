@@ -1,0 +1,56 @@
+<template name="ToolSingle">
+
+	<button class="btn-primary toggle-menu cancel">Back </button>
+
+	<h1>{{element.name}} - Detailed information</h1>
+
+	<h2>Basic metadata</h2>
+<table class="table table-striped table-bordered table-hover reactive-table">
+	<thead>
+
+	</thead>
+
+	<tbody>
+		<tr>
+			<th style="width:10%">
+				Name
+			</th>
+			<td>
+				{{element.name}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Description
+			</th>
+			<td>
+				{{element.description}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Link
+			</th>
+			<td>
+				<a href={{addHttp (element.url)}} target="_blank">{{element.url}}</a>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Attachment
+			</th>
+			<td>
+				<div class="file">
+        			<strong>{{file.name}}</strong>&nbsp; <a href="{{file.url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+      			</div>
+			</td>
+		</tr>	
+	</tbody>
+</table>
+
+	<button class="btn-primary toggle-menu cancel">Back </button>
+
+
+
+</template>
+

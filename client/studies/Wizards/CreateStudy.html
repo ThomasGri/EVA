@@ -1,0 +1,26 @@
+<template name="CreateStudy">
+	{{#if Template.subscriptionsReady}}
+	<section class="studies">
+		<h1>Choose how to create your study</h1>
+		
+		<button id="template" style="width: 100%;">Use the recommended Template</button>
+		<br><br>
+		<p style="font-size:16px;"> Use this option if you want to jumpstart the planning phase of your study. It contains some widely used methods and ethical and practical issues. You can modify the provided template in a wizard.</p>
+		<br><br>
+		<button id="new_study" style="width: 100%;">Create a completely empty study</button>
+		<br><br>
+		<p style="font-size:16px;"> This option offers no preset data. You can individually assign Methods, Tasks, etc. as your research requires. </p>
+		<br><br>
+		<button id="another_template" style="width: 100%;">Use an existing Study as a template</button>
+		<br><br>
+		<select id="study" name="study">
+			{{#each getStudies}}
+			<option value="{{_id}}" data-id={{_id}}>{{name}}</option>
+			{{/each}}
+		</select>
+		<p style="font-size:16px;"> Select a Study from the box above if you want to copy the planning data of an existing Study. The wizard will be prefilled but all data can still be modified. </p>
+	</section>
+	{{else}}
+	Loading
+	{{/if}}
+</template>

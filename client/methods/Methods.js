@@ -61,24 +61,28 @@ Template.Methods.helpers({
                     }
                 },
                 
-                { key: 'category_type', label: 'Kategorie', 
+                { key: 'category_type', label: 'Category', 
                     fn: function (value, object, key) { 
                        return fillTable(CategoryTypes, value);
                     }
                     
                 },
                 
-                { key: 'description', label: 'Beschreibung' },
+                { key: 'description', label: 'Description' },
                 
-                { key: 'gathered_data_type', label: 'Datentyp', 
+                { key: 'gathered_data_type', label: 'Datatype', 
                     fn: function (value, object, key) { 
                         return fillTable(DataTypes, value);
                     }
                 },
                 
-                { key: '_id', label: 'Aktionen',                    
+                { key: '_id', label: 'Actions',                    
                     fn: function (value, object, key) { 
-                        return new Spacebars.SafeString('<i class="fa fa-edit"></i><i class="fa fa-eye"></i>')
+                        if(object.author === Meteor.userId()){
+                            return new Spacebars.SafeString('<a title="Edit"><i class="fa fa-edit"></i></a><a title="View"><i class="fa fa-eye"></i></a><a title="Delete"><i class="fa fa-trash"></i></a>');
+                        } else {
+                            return new Spacebars.SafeString('<a title="Edit"><i class="fa fa-edit"></i></a> <a title="View"><i class="fa fa-eye"></i></a>');
+                        }
                     }
                 }
 			]
@@ -97,6 +101,9 @@ Template.Methods.events({
     }
     if ($(event.target).hasClass("fa-eye")) {
         FlowRouter.go("/view-method/" + method._id);
+    }
+    if ($(event.target).hasClass("fa-trash")) {
+        deleteConfirmation(Methods, method._id);
     }
   }
 });

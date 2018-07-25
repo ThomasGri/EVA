@@ -6,19 +6,15 @@ SuperTypes = new Mongo.Collection('SuperTypes');
 SuperTypes.allow({
   insert: function(userId, doc){
     return !!userId;
+  },
+  update: function(userId, doc){
+    return !!userId;
+  },
+  remove: function(userId, doc){
+    return doc.author == userId;
   }
+
 });
 
-SuperTypeSchema = new SimpleSchema({
-  name: {
-    type: String,
-    unique: true
-  },
-  description: {
-    type: String,
-    optional: true
-  }
-
-})
-
-SuperTypes.attachSchema(SuperTypeSchema);
+SuperTypes.attachSchema(BasicDescriptionSchema);
+SuperTypes.attachSchema(InterpretationHelpSchema);

@@ -6,19 +6,15 @@ DataTypes = new Mongo.Collection('DataType');
 DataTypes.allow({
   insert: function(userId, doc){
     return !!userId;
+  },
+  update: function(userId, doc){
+    return !!userId;
+  },
+  remove: function(userId, doc){
+    return doc.author == userId;
   }
+
 });
 
-DataTypeSchema = new SimpleSchema({
-  name: {
-    type: String,
-    unique: true
-  },
-  description: {
-    type: String,
-    optional: true
-  }
-
-})
-
-DataTypes.attachSchema(DataTypeSchema);
+DataTypes.attachSchema(BasicDescriptionSchema);
+DataTypes.attachSchema(InterpretationHelpSchema);

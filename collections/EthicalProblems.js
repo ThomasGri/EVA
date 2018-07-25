@@ -6,34 +6,15 @@ EthicalProblems = new Mongo.Collection('EthicalProblems');
 EthicalProblems.allow({
   insert: function(userId, doc){
     return !!userId;
+  },
+  update: function(userId, doc){
+    return !!userId;
+  },
+  remove: function(userId, doc){
+    return doc.author == userId;
   }
+
 });
 
-EthicalProblemsSchema = new SimpleSchema({
-  name: {
-    type: String,
-    optional: false,
-    unique: true
-  },
-  description: {
-    type: String,
-    optional: true
-  },
-  url: {
-  	type: String,
-  	optional: true
-  },
-  file: {
-  	type: Object,
-  	optional: true,
-  	 autoform: {
-  	 	type: 'fileUpload',
-        collection: 'Uploads',
-        label: 'Choose file'
-  	 }
-
-
-  }
-})
-
-EthicalProblems.attachSchema(EthicalProblemsSchema);
+EthicalProblems.attachSchema(BasicDescriptionSchema);
+EthicalProblems.attachSchema(ExtendedDescriptionSchema);

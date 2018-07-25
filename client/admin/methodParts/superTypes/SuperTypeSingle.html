@@ -1,0 +1,82 @@
+<template name="SuperTypeSingle">
+
+	<button class="btn-primary toggle-menu cancel">Back </button>
+
+	<h1>{{element.name}} - Detailed information</h1>
+
+	<h2>Basic metadata</h2>
+<table class="table table-striped table-bordered table-hover reactive-table">
+	<thead>
+
+	</thead>
+
+	<tbody>
+		<tr>
+			<th style="width:10%">
+				Name
+			</th>
+			<td>
+				{{element.name}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Description
+			</th>
+			<td>
+				{{element.description}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Interpretation Advice
+			</th>
+			<td>
+				{{interpretation_advice}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Evaluation Advice
+			</th>
+			<td>
+				{{evaluation_advice}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Presentation Advice
+			</th>
+			<td>
+				{{presentation_options}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Evaluation Link
+			</th>
+			<td>
+				<a href={{addHttp (evaluation_url)}} target="_blank">{{evaluation_url}}</a>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Evaluation Attachment
+			</th>
+			<td>
+				{{#if evaluation_file.name}}
+					<div class="file">
+						<strong>{{evaluation_file.name}}</strong>&nbsp; <a href="{{evaluation_file.url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+					</div>
+				{{/if}}
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+	<button class="btn-primary toggle-menu cancel">Back </button>
+
+
+
+</template>
+

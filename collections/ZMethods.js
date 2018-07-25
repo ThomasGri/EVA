@@ -6,7 +6,14 @@ Methods = new Mongo.Collection('Methods');
 Methods.allow({
   insert: function(userId, doc){
     return !!userId;
+  },
+  update: function(userId, doc){
+    return !!userId;
+  },
+  remove: function(userId, doc){
+    return doc.author == userId;
   }
+
 });
 
 
@@ -17,6 +24,9 @@ MethodInformationSchema = new SimpleSchema({
     unique: true,
     optional: true,
     autoform: {
+      readonly: function () {
+        return false;
+      },
       placeholder: "Enter the name of the method"
     }
   },
@@ -92,11 +102,13 @@ MethodInformationSchema = new SimpleSchema({
 }
     }
   },
-    author: {
+   author: {
   type: String,
   label: "Author",
   autoValue: function(){
-   return this.userId;
+    if (this.isInsert) {
+        return this.userId;
+      }
   },
   autoform: {
    afFieldInput: {
@@ -163,6 +175,7 @@ MethodToolSchema = new SimpleSchema({
   planing_tools: {
     type: Array,
     optional:true,
+    label: "Planning tools",
   },
    'planing_tools.$':{
     type: String,
@@ -249,12 +262,47 @@ MethodToolSchema = new SimpleSchema({
   },
 });
 
+MethodTasksSchema = new SimpleSchema({
+  method_tasks: {
+ type: Array,
+ optional: true
+ },
+ 'method_tasks.$':{
+     type: String,
+    
+    label: 'Name',
+    autoform:{
+      type:"select2",
+      placeholder: 'Comma spaced list of occupations',
+      options: function () {
+
+    return Tasks.find({}).map(function (c){
+
+      namevalue= "<strong>" + c.name + "</strong><br>" + c.description;
+
+      return {label: namevalue, value: c._id};;
+    });
+}
+    }
+ }
+});
+
 
 MethodAdditionalSchema = new SimpleSchema({
 
+  evaluation_advice: {
+    type: String,
+    optional:true,
+    max: 2000,
+    autoform: {
+
+      rows: 3
+    }
+  },
+
   interpretation_advice: {
     type: String,
-  optional:true,
+    optional:true,
     max: 2000,
     autoform: {
 
@@ -263,7 +311,7 @@ MethodAdditionalSchema = new SimpleSchema({
   },
   presentation_options: {
     type: String,
-  optional: true,
+    optional: true,
     max: 2000,
     autoform: {
 
@@ -291,4 +339,5 @@ MethodAdditionalSchema = new SimpleSchema({
 Methods.attachSchema(MethodInformationSchema);
 Methods.attachSchema(MethodProblemsSchema);
 Methods.attachSchema(MethodToolSchema);
+Methods.attachSchema(MethodTasksSchema);
 Methods.attachSchema(MethodAdditionalSchema);

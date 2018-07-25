@@ -1,0 +1,114 @@
+<template name="StudyConduction">
+
+	{{#if Template.subscriptionsReady}}
+
+		{{#if participants}}
+		<div class="pull-right">
+			<input type="checkbox" id="show_completed" name="show_completed" checked="true" /> <label for="show_completed">Show completed participants</label>
+		</div>
+
+		<div class="tab">
+			{{#if participantName participants}}
+				{{#each participants}}
+					<button id="participant_{{this}}" class="tablinks" onclick={{showTab this}}>Participant {{this}}</button>
+				{{/each}}
+			{{else}}
+				{{#each participants}}
+					<button class="tablinks" onclick={{showTab this}}>Part. {{this}}</button>
+				{{/each}}
+			{{/if}}
+		</div>
+
+
+
+		{{#each participants}}
+		<div id={{this}} class="tabcontent">
+			<h3>Participant {{this}} &nbsp;<a href="/download/{{study_id}}/{{this}}" target="_blank">Download this Checklist </a></h3>
+
+
+
+				{{#autoForm collection="TaskarrayCollection" id="updateProgress" type="update" doc=taskProgress class="new-method-form"}}
+			
+			         {{#afEachArrayItem name="tasks"}}
+				      <li class="list-group-item autoform-array-item">
+				      	<div>
+				        <div style="width:95%;">
+							{{#with taskDetails}}
+							<table class="table table-striped table-bordered table-hover reactive-table">
+								<thead>
+
+								</thead>
+
+								<tbody>
+									<tr>
+										<th style="width:10%">
+											Task
+										</th>
+										<td>
+											{{name}}
+										</td>
+									</tr>
+									<tr>
+										<th>
+											Description
+										</th>
+										<td>
+											{{description}}
+										</td>
+									</tr>
+									<tr>
+										<th>
+											Link
+										</th>
+										<td>
+											<a href={{addHttp (url)}} target="_blank">{{url}}</a>
+										</td>
+									</tr>
+									<tr>
+										<th>
+											Attachment
+										</th>
+										<td>
+											{{#if file.name}}
+												<div class="file">
+													<strong>{{file.name}}</strong>&nbsp; <a href="{{file.url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+												</div>
+											{{/if}}
+										</td>
+									</tr>	
+								</tbody>
+							</table>
+							{{/with}}
+						</div>
+
+				          <div class="autoform-array-item-body" style="width:40%;">
+				          	<div>
+				            {{> afQuickField name=this.name label=false options=afOptionsFromSchema }}
+				        	</div>
+				          </div>
+						</div>
+				      </li>
+				      {{/afEachArrayItem}}
+
+
+		  			
+		  			<div>
+		      			<button type="submit" class="btn btn-primary">Submit</button>
+					    <button type="button" class="btn btn-default cancel">Cancel</button>
+					    <button type="reset" class="btn btn-default">Reset</button>
+					</div>
+				{{/autoForm}}
+		</div>
+		{{/each}}
+		{{else}}
+		<h3>To go on with conduction of the Study you at least have to maintain the number of participants and assign 1 or more tasks to the study.</h3>
+
+
+		{{/if}}
+
+
+
+	{{else}}
+		Loading
+	{{/if}}
+</template>

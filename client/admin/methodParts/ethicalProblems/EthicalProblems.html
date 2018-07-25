@@ -1,0 +1,15 @@
+<template name="EthicalProblems">
+	<h1>Ethical Problems</h1>
+	<p style="font-size:16px;">Ethical problems arise from the methods assigned to a study. They refelect ehtical issues and concerns like the privacy of participants or mental or physical influences on them during the study.</p>
+
+	<button id="new" class="btn-primary toggle-menu">Add new Ethical Problem </button>
+
+	<section class="methods">
+		{{#if Template.subscriptionsReady}}
+			{{> reactiveTable class="table table-striped table-bordered table-hover" settings=settings collection=ethicalProblems}}
+		{{else}}
+			<p>Loading</p>
+		{{/if}}
+	</section>
+
+</template>

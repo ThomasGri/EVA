@@ -1,0 +1,14 @@
+<template name="DataTypes">
+	<h1>Data Types</h1>
+	<p style="font-size:16px;">Data Types describe which kind of data is gathered by methods. Additionaly they can provide interpretation advice for this data type.</p>
+
+	<button id="new" class="btn-primary toggle-menu">Add new Data Type </button>
+	<section class="methods">
+		{{#if Template.subscriptionsReady}}
+			{{> reactiveTable class="table table-striped table-bordered table-hover" settings=settings collection=dataTypes}}
+		{{else}}
+			<p>Loading</p>
+		{{/if}}
+	</section>
+	
+</template>

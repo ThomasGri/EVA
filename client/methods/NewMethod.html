@@ -1,6 +1,9 @@
 <template name="NewMethod">
 {{#if Template.subscriptionsReady}}
-  {{> wizard id="newMethodWizard" route="new-method" steps=steps stepsTemplate="steps_semanticUI" persist="true"}}
+
+  <h1>New/Edit Method </h1>
+
+  {{> wizard id=getId route=getRoute steps=steps stepsTemplate="steps_semanticUI5" persist="true"}}
     {{else}}
       <p>Loading</p>
     {{/if}}
@@ -36,6 +39,20 @@
  {{#each afFieldNames}}
     {{> afQuickField name=this.name options=afOptionsFromSchema}}
   {{/each}}
+
+    {{> wizardButtons}}
+
+    {{select2update}}
+
+  {{/autoForm}}
+</template>
+
+<template name="MethodTasks">
+   {{#autoForm id="tasks-form" doc=step.data schema=step.schema}}
+
+   {{#each afFieldNames}}
+      {{> afQuickField name=this.name options=afOptionsFromSchema}}
+    {{/each}}
 
     {{> wizardButtons}}
 

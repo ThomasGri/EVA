@@ -1,0 +1,509 @@
+<template name="StudySingle">
+
+	<button class="btn-primary toggle-menu cancel">Back </button> 
+	<div class="pull-right">
+	<button id="compare_studies" class="btn-primary toggle-menu">Compare to other study </button>		
+	<select id="study" name="study">
+			{{#each getStudies}}
+			<option value="{{_id}}" data-id={{_id}}>{{name}}</option>
+			{{/each}}
+		</select>
+</div>
+	{{> StudyDetails idpos="1"}}
+
+	<button class="btn-primary toggle-menu cancel">Back </button>
+
+</template>
+
+<template name="StudyDetails">
+{{#if Template.subscriptionsReady}}
+
+	{{#with element}}
+	<h1>{{name}} - Detailed information</h1>
+
+<!--	<div class="tab">
+		<button class="tablinks" onclick="openTab(event, 'planning')">Planning</button>
+		<button class="tablinks" onclick="openTab(event, 'conduction')">Conduction</button>
+		<button class="tablinks" onclick="openTab(event, 'evaluation')">Evaluation</button>
+	</div>
+
+	<div id="planning" class="tabcontent">-->
+
+		<h2>Basic information</h2>
+		<table class="table table-striped table-bordered table-hover reactive-table">
+			<thead>
+
+			</thead>
+
+			<tbody>
+				<tr>
+					<th style="width:10%">
+						Name
+					</th>
+					<td>
+						{{name}}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Description
+					</th>
+					<td>
+						{{description}}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Public
+					</th>
+					<td>
+						{{#if public}}
+							Public
+						{{else}}
+							Private
+						{{/if}}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						What?
+					</th>
+					<td>
+						{{what}}
+					</td>
+				</tr>	
+				<tr>
+					<th>
+						Who?
+					</th>
+					<td>
+						{{who}}
+					</td>
+				</tr>	
+				<tr>
+					<th>
+						Why?
+					</th>
+					<td>
+						{{why}}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Researchers
+					</th>
+					<td>
+						{{#each researchers}}
+						{{profile.lastName}},&nbsp;{{profile.firstName}} <br>
+						{{/each}}
+					</td>
+				</tr>	
+				<tr>
+					<th>
+						Information URL
+					</th>
+					<td>
+						<a href={{addHttp (goal_url)}} target="_blank">{{goal_url}}</a>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Attached File
+					</th>
+					<td>
+						{{#with goal_file}}
+						{{#if name}}
+						<div class="file">
+							<strong>{{name}}</strong>&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+						</div>
+						{{/if}}
+						{{/with}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+
+
+		<h2>Research Question</h2>
+		<table class="table table-striped table-bordered table-hover reactive-table">
+			<thead>
+
+			</thead>
+
+			<tbody>
+				<tr>
+					<th style="width:10%">
+						Research Question
+					</th>
+					<td>
+						{{main_question}}
+					</td>
+				</tr>
+				{{#each questions}}
+				<tr>
+					<th>
+						Subquestion
+					</th>
+					<td>
+						{{this}}
+					</td>
+				</tr>	
+				{{/each}}
+				<tr>
+					<th>
+						Information URL
+					</th>
+					<td>
+						<a href={{addHttp (question_url)}} target="_blank">{{question_url}}</a>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Attached File
+					</th>
+					<td>
+						{{#with question_file}}
+						{{#if name}}
+						<div class="file">
+							<strong>{{name}}</strong>&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+						</div>
+						{{/if}}
+						{{/with}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+
+		<h2>Used Methods</h2>
+		<table class="table table-striped table-bordered table-hover reactive-table">
+			<thead>
+
+			</thead>
+
+			<tbody>
+
+				{{#each methods}}
+				<tr>
+					<th style="width:10%">
+						Name
+					</th>
+					<td>
+						{{name}} <a style="text-decoration:none; text-decoration-color: black;" href="/view-method/{{_id}}"><i class="fa fa-eye"></i></a>
+					</td>
+				</tr>
+				<tr>
+					<th style="width:10%">
+						Description
+					</th>
+					<td>
+						{{description}}
+					</td>
+				</tr>
+				<tr>
+					<th>
+
+					</th>
+					<td>
+
+					</td>
+				</tr>
+				{{/each}}
+
+				<tr>
+					<th>
+						Information URL
+					</th>
+					<td>
+						<a href={{addHttp (method_url)}} target="_blank">{{method_url}}</a>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Attached File
+					</th>
+					<td>
+						{{#with method_file}}
+						{{#if name}}
+						<div class="file">
+							<strong>{{name}}</strong>&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+						</div>
+						{{/if}}
+						{{/with}}				
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<h2>Used Tasks</h2>
+		<table class="table table-striped table-bordered table-hover reactive-table">
+
+			<thead>
+
+			</thead>
+
+			<tbody>
+
+				<tr>
+					<th style="width:10%;">
+						Counterbalancing Method
+					</th>
+					<td>
+						{{counterbalancing}}
+					</td>
+				</tr>
+				<tr>
+					<th>
+
+					</th>
+					<td>
+
+					</td>
+				</tr>
+				<tr>
+					<th colspan="2">
+						Pretest Tasks
+					</th>
+				</tr>
+				{{#each pretest_tasks}}
+				<tr>
+					<th style="width:10%">
+						Name
+					</th>
+					<td>
+						{{name}} <a style="text-decoration:none; text-decoration-color: black;" href="/view-task/{{_id}}"><i class="fa fa-eye"></i></a>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Description
+					</th>
+					<td>
+						{{description}}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Phase
+					</th>
+					<td>
+						{{phase}}
+					</td>
+				</tr>
+				<tr>
+					<th>
+
+					</th>
+					<td>
+
+					</td>
+				</tr>
+				{{/each}}
+
+				<tr>
+					<th colspan="2">
+						Test Tasks
+					</th>
+				</tr>
+				{{#each test_tasks}}
+				<tr>
+					<th style="width:10%">
+						Name
+					</th>
+					<td>
+						{{name}} <a style="text-decoration:none; text-decoration-color: black;" href="/view-task/{{_id}}"><i class="fa fa-eye"></i></a>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Description
+					</th>
+					<td>
+						{{description}}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Phase
+					</th>
+					<td>
+						{{phase}}
+					</td>
+				</tr>
+				<tr>
+					<th>
+
+					</th>
+					<td>
+
+					</td>
+				</tr>
+				{{/each}}
+
+
+				<tr>
+					<th colspan="2">
+						Posttest Tasks
+					</th>
+				</tr>
+				{{#each posttest_tasks}}
+				<tr>
+					<th style="width:10%">
+						Name
+					</th>
+					<td>
+						{{name}} <a style="text-decoration:none; text-decoration-color: black;" href="/view-task/{{_id}}"><i class="fa fa-eye"></i></a>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Description
+					</th>
+					<td>
+						{{description}}
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Phase
+					</th>
+					<td>
+						{{phase}}
+					</td>
+				</tr>
+				<tr>
+					<th>
+
+					</th>
+					<td>
+
+					</td>
+				</tr>
+				{{/each}}
+			</tbody>
+		</table>
+
+		<h2>Practical Planning</h2>
+		<table class="table table-striped table-bordered table-hover reactive-table">
+
+			<thead>
+
+			</thead>
+
+			<tbody>
+
+				<tr>
+					<th style="width:10%">
+						Participants
+					</th>
+					<td>
+						{{participants}}
+					</td>
+				</tr>
+				<tr>
+					<th style="width:10%">
+						Study Location
+					</th>
+					<td>
+						{{location}}
+					</td>
+				</tr>
+				{{#each participant_req}}
+				<tr>
+					<th style="width:10%">
+						Participant Requirement
+					</th>
+					<td>
+						{{this}}
+					</td>
+				</tr>
+				{{/each}}
+
+
+
+
+				<tr>
+					<th style="width:10%">
+						Information URL
+					</th>
+					<td>
+						<a href={{addHttp (practical_url)}} target="_blank">{{practical_url}}</a>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Attached File
+					</th>
+					<td>
+						{{#with practical_file}}
+						{{#if name}}
+						<div class="file">
+							<strong>{{name}}</strong>&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+						</div>
+						{{/if}}
+						{{/with}}				
+					</td>
+				</tr>		
+			</tbody>
+		</table>
+
+		<h2>Ethical Planning</h2>
+		<table class="table table-striped table-bordered table-hover reactive-table">
+
+			<thead>
+
+			</thead>
+
+			<tbody>
+
+				{{#each information}}
+				<tr>
+					<th>
+						Ethical Information
+					</th>
+					<td>
+						{{this}}
+					</td>
+				</tr>
+				{{/each}}
+				<tr>
+					<th style="width:10%">
+						Information URL
+					</th>
+					<td>
+						<a href={{addHttp (ethical_url)}} target="_blank">{{ethical_url}}</a>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Attached File
+					</th>
+					<td>
+						{{#with ethical_file}}
+						{{#if name}}
+						<div class="file">
+							<strong>{{name}}</strong>&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+						</div>
+						{{/if}}
+						{{/with}}				
+					</td>
+				</tr>		
+			</tbody>
+		</table>
+	<!--</div>-->
+
+	{{/with}}
+<!--
+	<div id="conduction" class="tabcontent">
+
+	</div>
+
+	<div id="evaluation" class="tabcontent">
+
+	</div>
+-->
+	{{else}}
+	Loading
+	{{/if}}
+</template>

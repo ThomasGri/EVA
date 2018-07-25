@@ -1,0 +1,222 @@
+<template name="NewStudy">
+{{#if Template.subscriptionsReady}}
+
+  <h1> Study Planning </h1>
+
+  <h3>{{warningmessage}}</h3>
+
+  {{> wizard id=getId route=getRoute steps=steps stepsTemplate="steps_semanticUI7" persist="true"}}
+    {{else}}
+      <p>Loading</p>
+    {{/if}}
+</template>
+
+
+
+<template name="StudyInformation">
+   {{#autoForm id="information-form" doc=step.data schema=step.schema}}
+
+  {{#each afFieldNames}}
+    {{> afQuickField name=this.name options=afOptionsFromSchema}}
+  {{/each}}
+
+    {{> wizardButtons}}
+    
+  {{/autoForm}}
+</template>
+
+<template name="StudyQuestions">
+   {{#autoForm id="questions-form" doc=step.data schema=step.schema}}
+
+  {{#each afFieldNames}}
+    {{> afQuickField name=this.name options=afOptionsFromSchema}}
+  {{/each}}
+
+    {{> wizardButtons}}
+
+  {{/autoForm}}
+</template>
+
+<template name="StudyMethods">
+   {{#autoForm id="methods-form" doc=step.data schema=step.schema}}
+
+  {{#each afFieldNames}}
+    {{> afQuickField name=this.name options=afOptionsFromSchema}}
+  {{/each}}
+
+    {{> wizardButtons}}
+
+  {{/autoForm}}
+</template>
+
+<template name="StudyPractical">
+   {{#autoForm id="practical-form" doc=step.data schema=step.schema}}
+
+    Practical problems implied by used methods:
+    <table class="table table-striped table-bordered table-hover reactive-table">
+      <thead>
+        <th>
+          Name
+        </th>
+        <th>
+          Description
+        </th>
+        <th>
+          Attached URL
+        </th>
+        <th>
+          Attached File
+        </th>
+      </thead>
+
+      <tbody>
+        {{#each impliedProblems}}
+          <tr>
+            <td>{{name}}</td>
+            <td>{{description}}</td>
+            <td><a href={{addHttp (url)}} target="_blank">{{url}}</a></td>
+            <td>
+            {{#with (get_file _id)}}
+            {{#if name}}
+            <div class="file">
+              <strong>{{name}}</strong>&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+            </div>
+            {{/if}}
+            {{/with}}
+            </td>
+          </tr>
+
+        {{/each}}
+      </tbody>
+
+    </table>
+
+    
+      <h3> {{this.name}} </h3>
+    
+
+  {{#each afFieldNames}}
+    {{> afQuickField name=this.name options=afOptionsFromSchema}}
+  {{/each}}
+
+
+    {{> wizardButtons}}
+
+  {{/autoForm}}
+</template>
+
+<template name="StudyEthical">
+   {{#autoForm id="ethical-form" doc=step.data schema=step.schema}}
+
+    Ethical problems implied by used methods:
+    <table class="table table-striped table-bordered table-hover reactive-table">
+      <thead>
+        <th>
+          Name
+        </th>
+        <th>
+          Description
+        </th>
+        <th>
+          Attached URL
+        </th>
+        <th>
+          Attached File
+        </th>
+      </thead>
+
+      <tbody>
+        {{#each impliedProblems}}
+          <tr>
+            <td>{{name}}</td>
+            <td>{{description}}</td>
+            <td><a href={{addHttp (url)}} target="_blank">{{url}}</a></td>
+            <td>
+            {{#with (get_file _id)}}
+            {{#if name}}
+            <div class="file">
+              <strong>{{name}}</strong>&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+            </div>
+            {{/if}}
+            {{/with}}
+            </td>
+          </tr>
+
+        {{/each}}
+      </tbody>
+
+    </table>
+
+  {{#each afFieldNames}}
+    {{> afQuickField name=this.name options=afOptionsFromSchema}}
+  {{/each}}
+
+    {{> wizardButtons}}
+
+  {{/autoForm}}
+</template>
+
+<template name="StudyTasks">
+{{setVar}}
+
+   {{#autoForm id="tasks-form" doc=step.data schema=step.schema}}
+
+  {{#each afFieldNames}}
+    {{> afQuickField name=this.name options=afOptionsFromSchema}}
+  {{/each}}
+
+    {{> wizardButtons}}
+
+  {{/autoForm}}
+</template> 
+
+<template name="StudyCounterbalancing">
+
+     {{#autoForm id="counterbalancing-form" doc=temporaryData schema=step.schema}}
+
+      {{#each afFieldNames}}
+        {{> afQuickField name=this.name options=afOptionsFromSchema}}
+      {{/each}}
+
+    {{> wizardButtons}}
+
+  {{/autoForm}}
+
+
+
+</template>
+
+<template name="randombackup">
+  
+    <h3> Counterbalancing your tasks </h3>
+     {{#autoForm id="counterbalancing-form" doc=step.data schema=step.schema}}
+
+
+    {{> afQuickField name='counter_balancing_type'}}
+
+
+    
+
+
+
+    <h4> Pretest Tasks </h4>
+    {{#each assignedTasks "pretest_tasks"}}
+      <p>{{name}}</p> {{> afQuickField name='counter_balancing_group'}}
+    {{/each}}
+
+    <h4> Test Tasks </h4>
+    {{assignedTasks "test_tasks"}}
+    {{#each assignedTasks "test_tasks"}}
+      <p>{{name}}</p> {{> afQuickField name='counter_balancing_group'}}
+    {{/each}}
+
+
+    <h4> Posttest Tasks </h4>
+    {{#each assignedTasks "posttest_tasks"}}
+      <p>{{name}}</p> {{> afQuickField name='counter_balancing_group'}}
+    {{/each}}
+
+    {{> wizardButtons}}
+
+  {{/autoForm}}
+</template>

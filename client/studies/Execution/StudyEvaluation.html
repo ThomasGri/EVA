@@ -1,0 +1,617 @@
+<template name="StudyEvaluation">
+	{{#if Template.subscriptionsReady}}
+
+	{{#if participants}}
+
+	{{#if open_tasks}}
+	<!-- Open Tasks - no advice for evaluation until it is done. -->
+	<h2> Conduction not completed. Please make sure that the following tasks are not open anymore:</h2>
+	{{#each open_tasks}}
+	<h3>Task {{tasknumber}} is still open for Participant {{participant}}.</h3>
+	{{/each}}
+	{{else}}
+	{{#if failed_tasks}}
+	<!-- Warnings regarding failed tasks (who influence / don't influence counterbalancing) -->
+	<h2> Warning: Some tasks failed.</h2>
+
+	{{#if failed_tasks.[0]}}
+	<h3>These Tasks failed and influence your counterbalancing. You should should act as described:</h3>
+	<p style="font-size:18px"> Remove the test data from this participant and retest with a new participant</p>
+	{{#each failed_tasks.[0]}}
+	<h4>Task {{tasknumber}} failed for Participant {{participant}}.</h4>
+	<button val={{participant}} onclick={{reset_participant (participant)}}>Reset Participant {{participant}}</button>
+	{{/each}}
+	{{/if}}
+
+	{{#if failed_tasks.[1]}}
+	<h3> These failed Tasks don't have an impact on your counterbalancing. However the failure might distort the entire dataset. If this is the task you should remove the participant's data. Otherwise the remaining data can be used for evaluation.</h3>
+	{{#each failed_tasks.[1]}}
+	<h4>Task {{tasknumber}} failed for Participant {{participant}}.</h4>
+	<button val={{participant}} onclick={{remove_participant participant}}>Delete Participant</button>
+	{{/each}}
+	{{/if}}
+	{{/if}}
+
+
+	<hr width="80%" size="10">
+
+	<!-- Actual Evaluation Help -->
+
+	<!-- TODO Interpretation + Presentation phase  data from last step download.-->
+	<!-- TODO UPLOAD + Reset button functionalities -->
+
+	<!-- TODO Download Template befüllen -->
+	<!-- TODO Code prettify -->
+	
+	<!-- TODO Emails to study owners on edit / delete of important stuff??? -->
+
+	<!-- ???? -->
+	<!-- Anfänglicher Datensatz -->
+	<!-- Navigation highlighten -->
+	<!-- Accordion Bereiche / Tabs default ausklappen -->
+	<!-- Add author always as collaborator -->
+
+	<!-- TODO required fields in schemas / collections-->
+	<!-- Felder editierbar / nicht editierbar bei "Assets" INFO -->
+
+
+
+
+	<div class="tab">
+		<button style="width: 33.33333333%" class="tablinks" onclick="openTab(event,'evaluation')">Evaluation</button>
+		<button style="width: 33.33333333%" class="tablinks" onclick="openTab(event, 'interpretation')">Interpretation</button>
+		<button style="width: 33.33333333%" class="tablinks" onclick="openTab(event, 'presentation')">Presentation</button>
+	</div>
+
+
+	<div id="evaluation" class="tabcontent">
+
+		<hr width="80%" size="10">
+
+		<p style="font-size:18px"> In the list below you can find advice for the evaluation of collected data on a per task basis. Click on the arrow icons to see additional evaluation advice cascading down from the belonging methods and their attributes.</p>
+
+		<hr width="80%" size="10">
+
+		{{#each task_advice}}
+		<div style="border:1px solid black; margin-top: 5px;">
+			<h3 style="padding: 5px 5px;">Task - {{name}} <i class="fa fa-caret-down"></i> 
+				<button style="float:right" class="btn btn-default af-select-file js-af-select-file"> Upload evaluated data <input type="file" class="js-file"></button>
+				
+			</h3>
+			<div style="padding: 5px 5px; display: flex;" hidden="true">
+				
+				<div style="width: 50%; float:left;">
+
+					<p><i>Description:</i> {{description}}</p>
+					<br>
+					{{#if evaluation_advice}}
+					<p><i>Advice:</i> {{evaluation_advice}}</p>
+					{{/if}}
+					{{#if evaluation_url}}
+					<p><i>Further readings:</i> {{addHttp (evaluation_url)}}</p>
+					{{/if}}
+					{{#with get_file evaluation_file}}
+						{{#if name}}
+							<li>
+								<i>Attachement:</i>
+								<div class="file">
+									{{name}}&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+								</div>
+							</li>
+						{{/if}}
+					{{/with}}
+
+
+					<h3>Additional Evaluation Advice <i class="fa fa-caret-down"></i></h3>
+					<div hidden="true">
+						<ul>
+							{{#each methods}}
+
+							<li>
+								<b>Method - {{name}}</b>
+								<ul>
+									{{#if evaluation_advice}}
+									<li>
+										<i>Advice:</i> {{evaluation_advice}}
+									</li>
+									{{/if}}
+									{{#if url}}
+									<li>
+										<i>Further readings:</i> {{addHttp (url)}}
+									</li>
+									{{/if}}
+
+									{{#with get_file file}}
+										{{#if name}}
+											<li>
+												<i>Attachement:</i>
+												<div class="file">
+													{{name}}&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+												</div>
+											</li>
+										{{/if}}
+									{{/with}}
+								</ul>
+							</li>
+
+
+							{{#each super_type}}
+							<li>
+								<b>Super Type - {{name}}</b>
+								<ul>
+									{{#if evaluation_advice}}
+									<li>
+										<i>Advice:</i> {{evaluation_advice}}
+									</li>
+									{{/if}}
+									{{#if evaluation_url}}
+									<li>
+										<i>Further readings:</i> {{addHttp (evaluation_url)}}
+									</li>
+									{{/if}}
+									{{#with get_file evaluation_file}}
+										{{#if name}}
+											<li>
+												<i>Attachement:</i>
+												<div class="file">
+													{{name}}&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+												</div>
+											</li>
+										{{/if}}
+									{{/with}}
+								</ul>
+							</li>
+							{{/each}}
+
+							{{#each category_type}}
+							<li>
+								<b>Category Type - {{name}}</b>
+								<ul>
+									{{#if evaluation_advice}}
+									<li>
+										<i>Advice:</i> {{evaluation_advice}}
+									</li>
+									{{/if}}
+									{{#if evaluation_url}}
+									<li>
+										<i>Further readings:</i> {{addHttp (evaluation_url)}}
+									</li>
+									{{/if}}
+									{{#with get_file evaluation_file}}
+										{{#if name}}
+											<li>
+												<i>Attachement:</i>
+												<div class="file">
+													{{name}}&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+												</div>
+											</li>
+										{{/if}}
+									{{/with}}
+								</ul>
+							</li>
+							{{/each}}
+
+							{{#each gathered_data_type}}
+							<li>
+								<b>Data Type - {{name}}</b>
+								<ul>
+									{{#if evaluation_advice}}
+									<li>
+										<i>Advice:</i> {{evaluation_advice}}
+									</li>
+									{{/if}}
+									{{#if evaluation_url}}
+									<li>
+										<i>Further readings:</i> {{addHttp (evaluation_url)}}
+									</li>
+									{{/if}}
+									{{#with get_file evaluation_file}}
+										{{#if name}}
+											<li>
+												<i>Attachement:</i>
+												<div class="file">
+													{{name}}&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+												</div>
+											</li>
+										{{/if}}
+									{{/with}}
+								</ul>
+							</li>
+							{{/each}}
+
+							{{/each}}
+
+						</ul>
+					</div>
+
+
+				</div>
+				<div style="width: 50%; float: left;">
+
+					<div style="width: 50%; float:left;">
+						<h3> Resultfiles: <i class="fa fa-caret-down"></i></h3>
+						<div hidden="true">
+						{{#each resultfiles}}
+							<h4> Participant - {{participant}}</h4>
+								{{#with get_file resultfile}}
+									{{#if name}}
+										<div class="file">
+											{{name}}&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+										</div>
+									{{/if}}
+								{{/with}}
+							
+						{{/each}}
+						</div>
+					</div>
+
+					<div style="width: 50%; float: left;">
+						<h3>Comments to results: <i class="fa fa-caret-down"></i></h3>
+						<div hidden="true">
+						{{#each comments}}
+							<h4> Participant - {{participant}}</h4>
+							<p>{{comment}}</p>
+						{{/each}}
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>	
+		{{/each}}
+	</div>
+
+	<div id="interpretation" class="tabcontent">
+
+		<hr width="80%" size="10">
+
+		<p style="font-size:18px"> In the list below you can find advice for the interpretation of preprocessed data on a per task basis. Click on the arrow icons to see additional interpretation advice cascading down from the belonging methods and their attributes.</p>
+
+		<hr width="80%" size="10">
+
+		{{#each task_advice}}
+		<div style="border:1px solid black; margin-top: 5px;">
+			<h3 style="padding: 5px 5px;">Task - {{name}} <i class="fa fa-caret-down"></i> <button style="float:right"> Upload interpreted data </button></h3>
+			<div style="padding: 5px 5px; display: flex;" hidden="true">
+				
+				<div style="width: 50%; float:left;">
+
+					<p><i>Description:</i> {{description}}</p>
+					<br>
+					{{#if interpretation_advice}}
+					<p><i>Advice:</i> {{evaluation_advice}}</p>
+					{{/if}}
+					{{#if evaluation_url}}
+					<p><i>Further readings:</i> {{addHttp (evaluation_url)}}</p>
+					{{/if}}
+					{{#with get_file evaluation_file}}
+						{{#if name}}
+							<li>
+								<i>Attachement:</i>
+								<div class="file">
+									{{name}}&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+								</div>
+							</li>
+						{{/if}}
+					{{/with}}
+
+
+					<h3>Additional Interpretation Advice <i class="fa fa-caret-down"></i></h3>
+					<div hidden="true">
+						<ul>
+							{{#each methods}}
+
+							<li>
+								<b>Method - {{name}}</b>
+								<ul>
+									{{#if interpretation_advice}}
+									<li>
+										<i>Advice:</i> {{interpretation_advice}}
+									</li>
+									{{/if}}
+									{{#if url}}
+									<li>
+										<i>Further readings:</i> {{addHttp (url)}}
+									</li>
+									{{/if}}
+
+									{{#with get_file file}}
+										{{#if name}}
+											<li>
+												<i>Attachement:</i>
+												<div class="file">
+													{{name}}&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+												</div>
+											</li>
+										{{/if}}
+									{{/with}}
+								</ul>
+							</li>
+
+
+							{{#each super_type}}
+							<li>
+								<b>Super Type - {{name}}</b>
+								<ul>
+									{{#if interpretation_advice}}
+									<li>
+										<i>Advice:</i> {{interpretation_advice}}
+									</li>
+									{{/if}}
+									{{#if evaluation_url}}
+									<li>
+										<i>Further readings:</i> {{addHttp (evaluation_url)}}
+									</li>
+									{{/if}}
+									{{#with get_file evaluation_file}}
+										{{#if name}}
+											<li>
+												<i>Attachement:</i>
+												<div class="file">
+													{{name}}&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+												</div>
+											</li>
+										{{/if}}
+									{{/with}}
+								</ul>
+							</li>
+							{{/each}}
+
+							{{#each category_type}}
+							<li>
+								<b>Category Type - {{name}}</b>
+								<ul>
+									{{#if interpretation_advice}}
+									<li>
+										<i>Advice:</i> {{interpretation_advice}}
+									</li>
+									{{/if}}
+									{{#if evaluation_url}}
+									<li>
+										<i>Further readings:</i> {{addHttp (evaluation_url)}}
+									</li>
+									{{/if}}
+									{{#with get_file evaluation_file}}
+										{{#if name}}
+											<li>
+												<i>Attachement:</i>
+												<div class="file">
+													{{name}}&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+												</div>
+											</li>
+										{{/if}}
+									{{/with}}
+								</ul>
+							</li>
+							{{/each}}
+
+							{{#each gathered_data_type}}
+							<li>
+								<b>Data Type - {{name}}</b>
+								<ul>
+									{{#if interpretation_advice}}
+									<li>
+										<i>Advice:</i> {{interpretation_advice}}
+									</li>
+									{{/if}}
+									{{#if evaluation_url}}
+									<li>
+										<i>Further readings:</i> {{addHttp (evaluation_url)}}
+									</li>
+									{{/if}}
+									{{#with get_file evaluation_file}}
+										{{#if name}}
+											<li>
+												<i>Attachement:</i>
+												<div class="file">
+													{{name}}&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+												</div>
+											</li>
+										{{/if}}
+									{{/with}}
+								</ul>
+							</li>
+							{{/each}}
+
+							{{/each}}
+
+						</ul>
+					</div>
+
+
+				</div>
+				<div style="width: 50%; float: left; position:relative;">
+					<button style="position: absolute;bottom:0; right:0;"> Download evaluated data </button>
+					
+				</div>
+
+			</div>
+		</div>	
+		{{/each}}
+
+	</div>
+
+	<div id="presentation" class="tabcontent">
+
+		<hr width="80%" size="10">
+
+		<p style="font-size:18px"> In the list below you can find advice for the presentation of the evaluated and interpreted data on a per task basis. Click on the arrow icons to see additional presentation advice cascading down from the belonging methods and their attributes.</p>
+
+		<hr width="80%" size="10">
+
+		{{#each task_advice}}
+		<div style="border:1px solid black; margin-top: 5px;">
+			<h3 style="padding: 5px 5px;">Task - {{name}} <i class="fa fa-caret-down"></i> <button style="float:right"> Upload presentation data </button></h3>
+			<div style="padding: 5px 5px; display: flex;" hidden="true">
+				
+				<div style="width: 50%; float:left;">
+
+					<p><i>Description:</i> {{description}}</p>
+					<br>
+					{{#if presentation_options}}
+					<p><i>Advice:</i> {{presentation_options}}</p>
+					{{/if}}
+					{{#if evaluation_url}}
+					<p><i>Further readings:</i> {{addHttp (evaluation_url)}}</p>
+					{{/if}}
+					{{#with get_file evaluation_file}}
+						{{#if name}}
+							<li>
+								<i>Attachement:</i>
+								<div class="file">
+									{{name}}&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+								</div>
+							</li>
+						{{/if}}
+					{{/with}}
+
+
+					<h3>Additional Presentation Advice <i class="fa fa-caret-down"></i></h3>
+					<div hidden="true">
+						<ul>
+							{{#each methods}}
+
+							<li>
+								<b>Method - {{name}}</b>
+								<ul>
+									{{#if presentation_options}}
+									<li>
+										<i>Advice:</i> {{presentation_options}}
+									</li>
+									{{/if}}
+									{{#if url}}
+									<li>
+										<i>Further readings:</i> {{addHttp (url)}}
+									</li>
+									{{/if}}
+
+									{{#with get_file file}}
+										{{#if name}}
+											<li>
+												<i>Attachement:</i>
+												<div class="file">
+													{{name}}&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+												</div>
+											</li>
+										{{/if}}
+									{{/with}}
+								</ul>
+							</li>
+
+
+							{{#each super_type}}
+							<li>
+								<b>Super Type - {{name}}</b>
+								<ul>
+									{{#if presentation_options}}
+									<li>
+										<i>Advice:</i> {{presentation_options}}
+									</li>
+									{{/if}}
+									{{#if evaluation_url}}
+									<li>
+										<i>Further readings:</i> {{addHttp (evaluation_url)}}
+									</li>
+									{{/if}}
+									{{#with get_file evaluation_file}}
+										{{#if name}}
+											<li>
+												<i>Attachement:</i>
+												<div class="file">
+													{{name}}&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+												</div>
+											</li>
+										{{/if}}
+									{{/with}}
+								</ul>
+							</li>
+							{{/each}}
+
+							{{#each category_type}}
+							<li>
+								<b>Category Type - {{name}}</b>
+								<ul>
+									{{#if presentation_options}}
+									<li>
+										<i>Advice:</i> {{presentation_options}}
+									</li>
+									{{/if}}
+									{{#if evaluation_url}}
+									<li>
+										<i>Further readings:</i> {{addHttp (evaluation_url)}}
+									</li>
+									{{/if}}
+									{{#with get_file evaluation_file}}
+										{{#if name}}
+											<li>
+												<i>Attachement:</i>
+												<div class="file">
+													{{name}}&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+												</div>
+											</li>
+										{{/if}}
+									{{/with}}
+								</ul>
+							</li>
+							{{/each}}
+
+							{{#each gathered_data_type}}
+							<li>
+								<b>Data Type - {{name}}</b>
+								<ul>
+									{{#if presentation_options}}
+									<li>
+										<i>Advice:</i> {{presentation_options}}
+									</li>
+									{{/if}}
+									{{#if evaluation_url}}
+									<li>
+										<i>Further readings:</i> {{addHttp (evaluation_url)}}
+									</li>
+									{{/if}}
+									{{#with get_file evaluation_file}}
+										{{#if name}}
+											<li>
+												<i>Attachement:</i>
+												<div class="file">
+													{{name}}&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+												</div>
+											</li>
+										{{/if}}
+									{{/with}}
+								</ul>
+							</li>
+							{{/each}}
+
+							{{/each}}
+
+						</ul>
+					</div>
+
+
+				</div>
+				<div style="width: 50%; float: left; position:relative;">
+					<button style="position: absolute;bottom:0; right:0;"> Download interpreted data </button>
+
+				</div>
+
+			</div>
+		</div>	
+		{{/each}}
+
+	</div>
+
+
+	{{/if}}
+
+
+
+
+	{{else}}
+	<h3>Before starting with the evaluation please complete the planning and the conduction of the study.</h3>
+	{{/if}}
+
+	{{else}}
+	<p>Loading</p>
+	{{/if}}
+</template>

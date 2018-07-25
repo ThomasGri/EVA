@@ -48,19 +48,23 @@ Template.Tasks.helpers({
             fields: [
 			    { key: 'name', label: 'Name' },
 
-                { key: 'description', label: 'Beschreibung' },
+                { key: 'description', label: 'Description' },
 
-                { key: 'methods', label: 'Methoden',
+                { key: 'methods', label: 'Methods',
                     fn: function (value, object, key) { 
                         return fillTable(Methods, value);
                     }
                 }, 
 
-                { key: 'url', label: 'Link'},
+                { key: 'url', label: 'Url'},
                 
-                { key: '_id', label: 'Aktionen',                    
+                { key: '_id', label: 'Actions',                    
                     fn: function (value, object, key) { 
-                        return new Spacebars.SafeString('<i class="fa fa-edit"></i><i class="fa fa-eye"></i>')
+                        if(object.author === Meteor.userId()){
+                            return new Spacebars.SafeString('<a title="Edit"><i class="fa fa-edit"></i></a><a title="View"><i class="fa fa-eye"></i></a> <a title="Delete"><i class="fa fa-trash"></i></a>');
+                        } else {
+                            return new Spacebars.SafeString('<a title="Edit"><i class="fa fa-edit"></i></a><a title="View"><i class="fa fa-eye"></i></a>');
+                        }
                     }
                 }
 			]
@@ -79,6 +83,9 @@ Template.Tasks.events({
     }
     if ($(event.target).hasClass("fa-eye")) {
         FlowRouter.go("/view-task/" + task._id);
+    }
+    if ($(event.target).hasClass("fa-trash")) {
+       deleteConfirmation(Tasks, task._id);
     }
   }
 });

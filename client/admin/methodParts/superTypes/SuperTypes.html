@@ -1,0 +1,14 @@
+<template name="SuperTypes">
+	<h1>Super Types</h1>
+	<p style="font-size:16px;">Super Types are used to categorize methods and to offer evaluation advice for entire groups of methods.</p>
+
+	<button id="new" class="btn-primary toggle-menu">Add new Super Type </button>
+	<section class="methods">
+		{{#if Template.subscriptionsReady}}
+			{{> reactiveTable class="table table-striped table-bordered table-hover" settings=settings collection=superTypes}}
+		{{else}}
+			<p>Loading</p>
+		{{/if}}
+	</section>
+
+</template>

@@ -7,7 +7,14 @@ Studies = new Mongo.Collection('Studies');
 Studies.allow({
   insert: function(userId, doc){
     return !!userId;
+  },
+  update: function(userId, doc){
+    return !!userId;
+  },
+  remove: function(userId, doc){
+    return doc.author == userId;
   }
+
 });
 
 
@@ -65,11 +72,13 @@ GoalSchema = new SimpleSchema({
 }
     } 
   },
-   url: {
+   goal_url: {
+    label: "Url",
     type: String,
     optional: true
   },
-  file: {
+  goal_file: {
+    label: "File",
     type: String,
     optional: true, 
      autoform: {
@@ -85,7 +94,9 @@ GoalSchema = new SimpleSchema({
   type: String,
   label: "Author",
   autoValue: function(){
-   return this.userId;
+    if (this.isInsert) {
+        return this.userId;
+      }
   },
   autoform: {
    afFieldInput: {
@@ -116,8 +127,24 @@ GoalSchema = new SimpleSchema({
   type: String,
   label: "Status",
   autoValue: function(){
-   return "In Planing";
+      if (this.isInsert) {
+        return "In Planning";
+      }
   },
+  autoform: {
+   afFieldInput: {
+    type: "hidden"
+   },
+   afFormGroup: {
+         label: false
+      }
+  }
+ },
+
+  counter_balancing: {
+  type: Number,
+  optional:true,
+  label: "Coutnerbalancing Type",
   autoform: {
    afFieldInput: {
     type: "hidden"
@@ -141,12 +168,14 @@ QuestionSchema = new SimpleSchema({
   'questions.$':{
     type: String
   },
-   url: {
+   question_url: {
+    label: "Url",
     type: String,
     optional: true
   },
-  file: {
+  question_file: {
     type: String,
+    label: "File",
     optional: true, 
      autoform: {
       afFieldInput:{
@@ -180,11 +209,13 @@ MethodPlaningSchema = new SimpleSchema({
 }
     }
  },
-  url: {
+  method_url: {
+    label: "Url",
     type: String,
     optional: true
   },
-  file: {
+  method_file: {
+    label:"File",
     type: String,
     optional: true, 
      autoform: {
@@ -195,6 +226,168 @@ MethodPlaningSchema = new SimpleSchema({
       }
      }
   },
+});
+
+
+StudyTaskSchema = new SimpleSchema({
+
+    filter_tasks: {
+      type: Boolean,
+      defaultValue: true,
+      optional: true
+    },
+
+    pretest_tasks: {
+    type: Array,
+    optional: true
+  },
+'pretest_tasks.$':{
+    type: String,
+    label: false,
+
+    autoform:{
+      type:"select2",
+      options: function () {
+
+        filter = AutoForm.getFieldValue('filter_tasks');
+
+        if(filter == false){
+
+          return Tasks.find({'phase': 'Pretest'}).map(function (c){
+
+                namevalue= "<strong>" + c.name + "</strong><br>" + c.description;
+
+                return {label: namevalue, value: c._id};;
+              });
+        } else {
+
+
+          methodTasks = Methods.find({_id: {$in: selectedMethods}}).fetch();
+
+          task_ids = [];
+
+          // switching from [[]] to [] for next query.
+          temp = methodTasks.map(function(a) {return a.method_tasks;}); 
+          temp.forEach(function(element) {
+            element.forEach(function(x) {
+                task_ids.push(x);
+            });
+          });
+
+          task_ids = task_ids.concat(AutoForm.getFieldValue('pretest_tasks'));
+
+          return Tasks.find({'phase': 'Pretest', '_id': {$in: task_ids}}).map(function (c){
+
+            namevalue= "<strong>" + c.name + "</strong><br>" + c.description;
+
+            return {label: namevalue, value: c._id};
+          });
+        }
+
+      }
+
+    }
+ },
+
+    test_tasks: {
+    type: Array,
+    optional: true
+  },
+  'test_tasks.$':{
+      type: String,
+    
+    label: 'Name',
+    autoform:{
+      type:"select2",
+      options: function () {
+
+        filter = AutoForm.getFieldValue('filter_tasks');
+
+        if(filter == false){
+          return Tasks.find({'phase': 'Test'}).map(function (c){
+
+                namevalue= "<strong>" + c.name + "</strong><br>" + c.description;
+
+                return {label: namevalue, value: c._id};;
+              });
+        } else {
+
+          methodTasks = Methods.find({_id: {$in: selectedMethods}}).fetch();
+
+          task_ids = [];
+
+          // switching from [[]] to [] for next query.
+          temp = methodTasks.map(function(a) {return a.method_tasks;}); 
+          temp.forEach(function(element) {
+            element.forEach(function(x) {
+                task_ids.push(x);
+            });
+          });
+
+          task_ids = task_ids.concat(AutoForm.getFieldValue('test_tasks'));
+
+          return Tasks.find({'phase': 'Test', '_id': {$in: task_ids}}).map(function (c){
+
+            namevalue= "<strong>" + c.name + "</strong><br>" + c.description;
+
+            return {label: namevalue, value: c._id};
+          });
+        }
+
+      }
+    }
+ },
+
+
+posttest_tasks: {
+    type: Array,
+    optional: true
+  },
+  'posttest_tasks.$':{
+      type: String,
+    
+    label: 'Name',
+    autoform:{
+      type:"select2",
+      options: function () {
+
+        filter = AutoForm.getFieldValue('filter_tasks');
+
+        if(filter == false){
+          return Tasks.find({'phase': 'Posttest'}).map(function (c){
+
+                namevalue= "<strong>" + c.name + "</strong><br>" + c.description;
+
+                return {label: namevalue, value: c._id};;
+              });
+        } else {
+
+          methodTasks = Methods.find({_id: {$in: selectedMethods}}).fetch();
+
+          task_ids = [];
+
+          // switching from [[]] to [] for next query.
+          temp = methodTasks.map(function(a) {return a.method_tasks;}); 
+          temp.forEach(function(element) {
+            element.forEach(function(x) {
+                task_ids.push(x);
+            });
+          });
+
+          task_ids = task_ids.concat(AutoForm.getFieldValue('posttest_tasks'));
+
+          return Tasks.find({'phase': 'Posttest', '_id': {$in: task_ids}}).map(function (c){
+
+            namevalue= "<strong>" + c.name + "</strong><br>" + c.description;
+
+            return {label: namevalue, value: c._id};
+          });
+        }
+
+      }
+    }
+ },
+
 });
 
 PracticalPlaningSchema = new SimpleSchema({
@@ -213,11 +406,13 @@ PracticalPlaningSchema = new SimpleSchema({
   'participant_req.$':{
     type: String
   },
-   url: {
+   practical_url: {
+    label: "Url",
     type: String,
     optional: true
   },
-  file: {
+  practical_file: {
+    label: "File",
     type: String,
     optional: true, 
      autoform: {
@@ -238,11 +433,13 @@ EthicalPlaningSchema = new SimpleSchema({
   'information.$': {
     type: String
   },
-   url: {
+   ethical_url: {
+    label:"Url",
     type: String,
     optional: true
   },
-  file: {
+  ethical_file: {
+    label: "File",
     type: String,
     optional: true, 
      autoform: {
@@ -255,43 +452,22 @@ EthicalPlaningSchema = new SimpleSchema({
   },
 });
 
-StudySchema = new SimpleSchema({
-	// Add attributes here
 
-///////////////////////////////////////////////////
 
-  goals: {
-    type: GoalSchema,
-    label: "Study Goals"
-  },
-
-  questions: {
-    type: QuestionSchema,
-    label: "Study Questions"
-  },
-
-  methodplaning: {
-    type: MethodPlaningSchema,
-    label: "Methods"
-  },
-
-   practical_planing: {
-    type: PracticalPlaningSchema,
-    label: "Practical Planing"
-  },
-
-  ethical_planing: {
-    type: EthicalPlaningSchema,
-    label: "Ethical Planing"
-  },
-
-});
-
-//Studies.attachSchema(StudySchema);
 
 
 Studies.attachSchema(GoalSchema);
 Studies.attachSchema(QuestionSchema);
 Studies.attachSchema(MethodPlaningSchema);
+Studies.attachSchema(StudyTaskSchema);
 Studies.attachSchema(PracticalPlaningSchema);
 Studies.attachSchema(EthicalPlaningSchema);
+
+
+
+
+
+
+
+
+

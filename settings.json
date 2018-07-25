@@ -2,7 +2,10 @@
 	"public": {
 		"ga":{
 			"account": "UA-XXXXXXXXXX-X"
-		}
+		},
+	    "persistent_session": {
+	      "default_method": "persistent"
+	    }
 	},
 
 	"private": {

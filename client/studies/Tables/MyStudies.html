@@ -1,0 +1,18 @@
+<template name="MyStudies">
+	<h1>My Studies</h1>
+	<p style="font-size:16px;">In this screen you can see all studies you are currently working on. If you want to see other studies go to Study Collection. You can get a quick overview about a study or work on its completeion.</p>
+
+	<button id="new_study" class="btn-primary toggle-menu">Add new Study </button>
+
+	<section class="studies">
+		{{#if Template.subscriptionsReady}}
+		<div class="pull-right">
+			<input type="checkbox" id="show_archived" name="show_archived"/> <label for="show_archived">Show archived studies</label>
+		</div>
+			{{> reactiveTable class="table table-striped table-bordered table-hover" settings=settings collection=studies}}
+		{{else}}
+			<p>Loading</p>
+		{{/if}}
+	</section>
+
+</template>

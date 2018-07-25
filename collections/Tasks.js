@@ -6,35 +6,79 @@ Tasks = new Mongo.Collection('Tasks');
 Tasks.allow({
   insert: function(userId, doc){
     return !!userId;
+  },
+  update: function(userId, doc){
+    return !!userId;
+  },
+  remove: function(userId, doc){
+    return doc.author == userId;
   }
+
 });
 
 TasksSchema = new SimpleSchema({
-  name: {
-    type: String,
-    unique: true
-  },
-  description: {
-    type: String,
+
+   methods: {
+    type: Array,
     optional: true
   },
-  url: {
-  	type: String,
-  	optional: true
+  'methods.$':{
+      type: String,
+    
+    label: 'Name',
+    autoform:{
+      type:"select2",
+      options: function () {
+
+    return Methods.find({}).map(function (c){
+
+      namevalue= "<strong>" + c.name + "</strong><br>" + c.description;
+
+      return {label: namevalue, value: c._id};;
+    });
+}
+    }
+ },
+ phase: {
+  type: String,
+  allowedValues: ["Pretest", "Test", "Posttest"],
+  autoform: {
+    type:"select2",
+    options: [
+        {label: "Pretest", value: "Pretest"},
+        {label: "Test", value: "Test"},
+        {label: "Posttest", value: "Posttest"}]
+  }
+ },
+
+ phaseint: {
+  type: Number,
+  autoValue: function(){
+    phase = this.field("phase").value;
+    if (phase == "Pretest") {
+        return 0;
+    } else if (phase == "Test"){
+      return 1;
+    } else if (phase == "Posttest"){
+      return 2;
+    } else {
+      return 3;
+    }
   },
-  file: {
-  	type: String,
-  	optional: true, 
-     autoform: {
-      afFieldInput:{
-      type: 'fileUpload',
-        collection: 'Uploads',
-        label: 'Choose file'
+  autoform: {
+   afFieldInput: {
+    type: "hidden"
+   },
+   afFormGroup: {
+         label: false
       }
-     }
-  },
+  }
+ }
  
 
 });
 
+Tasks.attachSchema(BasicDescriptionSchema);
 Tasks.attachSchema(TasksSchema);
+Tasks.attachSchema(ExtendedDescriptionSchema);
+Tasks.attachSchema(InterpretationHelpSchema);

@@ -5,48 +5,32 @@ Template.NewTask.onCreated(function(){
     self.subscribe('uploads');
     self.subscribe('ethicalProblems');
     self.subscribe('practicalProblems');
+    self.subscribe('methods');
+    self.subscribe('tasks');
+    self.subscribe('methods');
   });
 });
 
-Template.NewTask.events({
-  'click .cancel': function(event, template) {
-    //event.preventDefault();  
-    //FlowRouter.go('new-method');
-    history.back()
-  }
-});
+AutoForm.hooks({
+  insertTaskForm: {
+    onSuccess: function (formType, result) {
 
-Template.NewTask.events({
-  'click :submit': function(event, template) {
-    //event.preventDefault();  
-    //FlowRouter.go('new-method');
-    history.back()
+      taskId = result;
+      methodsToInsert = Tasks.find({_id: taskId}).fetch()[0].methods;
+
+      if(methodsToInsert !== undefined){
+        for(i=0; i < methodsToInsert.length; i++){
+          Methods.update({_id: methodsToInsert[i]}, {$push : {method_tasks: taskId}});
+        }
+      }
+
+      history.back()
+    }
   }
 });
 
 Template.NewTask.events({
  'change #insertTaskForm': function(e) {
-    
-  $("[name^='practical_problems']").select2({
-    language: {
-      noResults: function (params) {
-        return "No matching results. Check your spelling or " + "<a href='/new-practicalProblem' target='_blank'>Request a new one</a>";
-      }
-    },
-      escapeMarkup: function (markup) {
-          return markup;
-      }
-  });
-                        $("[name^='ethical_problems']").select2({
-    language: {
-      noResults: function (params) {
-        return "No matching results. Check your spelling or " + "<a href='/new-ethicalProblem' target='_blank'>Request a new one</a>";
-      }
-    },
-      escapeMarkup: function (markup) {
-          return markup;
-      }
-  });
-  
+    decodeSelect2("methods", "method", Methods);
   }
 });

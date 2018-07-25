@@ -1,7 +1,21 @@
 <template name="Admin">
-	{{#if admin}}
-	<h1 class="page-title">Admin</h1>
-	{{else}}
+	<!--{{#if admin}}-->
+	<h1 class="page-title">Method Attributes</h1>
+	<p style="font-size:16px;">In this section the specific attributes which can be assigned to Studies and Methods can be maintained.</p>
+
+	<div class="content">
+		<!-- select box for type -->
+		<select class="js-example-basic-single" name="state">
+		  <option value="0">Category Types</option>
+		  <option value="1">Data Types</option>
+		  <option value="2">Ethical Problems</option>
+		  <option value="3">Practical Problems</option>
+		  <option value="4">Super Types</option>
+		</select>
+		<!-- Template to be shown -->
+		{{> typeToEdit }} 
+	</div>
+	<!--{{else}}
 	<h1 class="page-title">Not Authorized</h1>
-	{{/if}}
+	{{/if}}-->
 </template>

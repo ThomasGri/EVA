@@ -1,17 +1,369 @@
 <template name="MethodSingle">
-	<div class="new-method-container">
-		{{#if Template.subscriptionsReady}}
-		{{#autoForm collection="Methods" schema="MethodSchema" id="insertMethodForm" type="update" class="new-method-form"}}
 
-  			{{> afQuickFields}}
-  			<div>
+	<button class="btn-primary toggle-menu cancel">Back </button>
 
-			    <button type="button" class="btn btn-default cancel">Back</button>
+{{#with element}}
+	<h1>{{name}} - Detailed information</h1>
 
-			</div>
-		{{/autoForm}}
-		{{else}}
-			<p>Loading</p>
-		{{/if}}
-	</div>
+	<h2>Basic metadata</h2>
+<table class="table table-striped table-bordered table-hover reactive-table">
+	<thead>
+
+	</thead>
+
+	<tbody>
+		<tr>
+			<th style="width:10%">
+				Name
+			</th>
+			<td>
+				{{name}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Description
+			</th>
+			<td>
+				{{description}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Type
+			</th>
+			<td>{{#each superType}}
+				{{name}}
+				{{/each}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Subtypes
+			</th>
+			<td>
+			{{#each categoryTypes}}
+				{{name}},&nbsp;
+			{{/each }}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Gathered Data types
+			</th>
+			<td>
+			{{#each dataType}}
+				{{name}},&nbsp;
+			{{/each}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Interpretation Advice
+			</th>
+			<td>
+				{{interpretation_advice}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Evaluation Advice
+			</th>
+			<td>
+				{{evaluation_advice}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Presentation Advice
+			</th>
+			<td>
+				{{presentation_options}}
+			</td>
+		</tr>
+
+		<tr>
+			<th>
+				Link
+			</th>
+			<td>
+				<a href={{addHttp (url)}} target="_blank">{{url}}</a>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Attachment
+			</th>
+			<td>
+				{{#with file}}
+				{{#if name}}
+					<div class="file">
+						<strong>{{name}}</strong>&nbsp; <a href="{{url download=true}}" class="btn btn-default" target="_blank"><i class="fa fa-download"></i></a>
+					</div>
+				{{/if}}
+				{{/with}}
+			</td>
+		</tr>	
+	</tbody>
+</table>
+{{/with}}
+
+{{#if practicalProblems}}
+<h2> Practical Problems implied by the Method</h2>
+<table class="table table-striped table-bordered table-hover reactive-table">
+	<thead>
+
+	</thead>
+	<tbody>
+		{{#each practicalProblems}}
+		<tr>
+			<th style="width:10%">
+				Name
+			</th>
+			<td>
+				{{name}} <a style="text-decoration:none; text-decoration-color: black;" href="/view-practicalProblem/{{_id}}"><i class="fa fa-eye"></i></a>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Description
+			</th>
+			<td>
+				{{description}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				
+			</th>
+			<td>
+				
+			</td>
+		</tr>
+		{{/each}}
+	</tbody>
+</table>
+{{/if}}
+
+{{#if ethicalProblems}}
+<h2> Ethical Problems implied by the Method</h2>
+<table class="table table-striped table-bordered table-hover reactive-table">
+	<thead>
+
+	</thead>
+	<tbody>
+		{{#each ethicalProblems}}
+		<tr>
+			<th style="width:10%">
+				Name
+			</th>
+			<td>
+				{{name}} <a style="text-decoration:none; text-decoration-color: black;" href="/view-ethicalProblem/{{_id}}"><i class="fa fa-eye"></i></a>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Description
+			</th>
+			<td>
+				{{description}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				
+			</th>
+			<td>
+				
+			</td>
+		</tr>
+		{{/each}}
+	</tbody>
+</table>
+{{/if}}
+
+
+<h2> Tools to use with this Method</h2>
+<table class="table table-striped table-bordered table-hover reactive-table">
+	<thead>
+
+	</thead>
+	<tbody>
+		<tr>
+			<th colspan="2">
+				Planning Tools 
+			</th>
+		</tr>
+		{{#each tools_planning}}
+		<tr>
+			<th style="width:10%">
+				Name
+			</th>
+			<td>
+				{{name}} <a style="text-decoration:none; text-decoration-color: black;" href="/view-tool/{{_id}}"><i class="fa fa-eye"></i></a>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Description
+			</th>
+			<td>
+				{{description}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				
+			</th>
+			<td>
+				
+			</td>
+		</tr>
+		{{/each}}
+		<tr>
+			<th colspan="2">
+				Conduction Tools 
+			</th>
+		</tr>
+		{{#each tools_conduction}}
+		<tr>
+			<th style="width:10%">
+				Name
+			</th>
+			<td>
+				{{name}} <a style="text-decoration:none; text-decoration-color: black;" href="/view-tool/{{_id}}"><i class="fa fa-eye"></i></a>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Description
+			</th>
+			<td>
+				{{description}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				
+			</th>
+			<td>
+				
+			</td>
+		</tr>
+		{{/each}}
+		<tr>
+			<th colspan="2">
+				Analysis Tools
+			</th>
+		</tr>
+		{{#each tools_analysis}}
+		<tr>
+			<th style="width:10%">
+				Name
+			</th>
+			<td>
+				{{name}} <a style="text-decoration:none; text-decoration-color: black;" href="/view-tool/{{_id}}"><i class="fa fa-eye"></i></a>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Description
+			</th>
+			<td>
+				{{description}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				
+			</th>
+			<td>
+				
+			</td>
+		</tr>
+		{{/each}}
+		<tr>
+			<th colspan="2">
+				Presentation Tools 
+			</th>
+		</tr>
+		{{#each tools_presentation}}
+		<tr>
+			<th style="width:10%">
+				Name
+			</th>
+			<td>
+				{{name}} <a style="text-decoration:none; text-decoration-color: black;" href="/view-tool/{{_id}}"><i class="fa fa-eye"></i></a>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Description
+			</th>
+			<td>
+				{{description}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				
+			</th>
+			<td>
+				
+			</td>
+		</tr>
+		{{/each}}
+	</tbody>
+
+
+</table>
+
+{{#if tasks}}
+<h2> Tasks recommended for this Method</h2>
+<table class="table table-striped table-bordered table-hover reactive-table">
+	<thead>
+
+	</thead>
+	<tbody>
+		{{#each tasks}}
+		<tr>
+			<th style="width:10%">
+				Name
+			</th>
+			<td>
+				{{name}} <a style="text-decoration:none; text-decoration-color: black;" href="/view-task/{{_id}}"><i class="fa fa-eye"></i></a>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Description
+			</th>
+			<td>
+				{{description}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				Phase
+			</th>
+			<td>
+				{{phase}}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				
+			</th>
+			<td>
+				
+			</td>
+		</tr>
+		{{/each}}
+	</tbody>
+</table>
+{{/if}}
+
+
+	<button class="btn-primary toggle-menu cancel">Back </button>
 </template>
+
