@@ -2,13 +2,19 @@
 	
 	<button class="btn-primary toggle-menu cancel">Back </button>
 <div style="width:100%;">
-	<div style="width:49%; float:left;">
-	{{> StudyDetails idpos="1"}}
-	</div>
+	<div style="display: flex">
+		<div style="width:49%; float:left;">
+			{{> StudyDetails idpos="1"}}
+		</div>
+		<div style="width: 2%; float: left;">
+			<!-- SPACER -->
+		</div>
 
-	<div style="width:49%; float:right;">
-	{{> StudyDetails idpos="2"}}
+		<div style="width:49%; float:right;">
+			{{> StudyDetails idpos="2"}}
+		</div>
 	</div>
+	{{align_tables}}
 </div>
 
 <button class="btn-primary toggle-menu cancel">Back </button>

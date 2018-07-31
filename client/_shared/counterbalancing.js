@@ -2,7 +2,7 @@
 *
 *	Functions used for the Counterbalancing of Tasks.
 *
-*	General Functionality taken from: http://www.statisticshowto.com/counterbalancing-2/
+*	General Functionality implemented as described in: http://www.statisticshowto.com/counterbalancing-2/
 *
 **/
 
@@ -25,7 +25,6 @@ counterBalance = function(taskarray, participantCount, balancingMethod){
 
 	// determine Counterbalancing Method and call respective function.
 	if(balancingMethod == 0){
-		console.log("No Counterbalancing");
 		possibleOrders = [array_to_counterbalance]; 
 	} else if (balancingMethod == 3){
 		// Reverse counterbalancing: add space since # of rebalanced tasks will duplicate.
@@ -35,7 +34,6 @@ counterBalance = function(taskarray, participantCount, balancingMethod){
 				i++;
 			}
 		}
-
 		possibleOrders = reverseOrderC(array_to_counterbalance, array_to_counterbalance.length);
 	} else if (balancingMethod == 1){
 		possibleOrders = completeCounterbalancing(array_to_counterbalance, array_to_counterbalance.length);
@@ -46,7 +44,6 @@ counterBalance = function(taskarray, participantCount, balancingMethod){
 	// merge balanced tasks into not balanced ones.
 	for(a=0; a < possibleOrders.length; a++){
 		j = 0;
-
 		tmp_array = array_to_keep_order.slice();
 		for(i = 0; i < tmp_array.length; i++){
 			if(tmp_array[i] == null){
@@ -54,12 +51,8 @@ counterBalance = function(taskarray, participantCount, balancingMethod){
 				j++;
 			}
 		}
-		
 		possibleOrders[a] = tmp_array.slice();
-
 	}
-
-	// possibleOrders = [[]]
 
 	// Determine how many particpants are in each full group
 	participantsInGroup = Math.floor(participantCount / possibleOrders.length);
@@ -73,7 +66,6 @@ counterBalance = function(taskarray, participantCount, balancingMethod){
 	for (i = 0; i < possibleOrders.length; i++){
 		group_participant_assignment.push({});
 	}
-
 
 	// assign full groups.
 	for (i=0; i < participantsInGroup; i++){
@@ -126,11 +118,8 @@ counterBalance = function(taskarray, participantCount, balancingMethod){
 	return [group_participant_assignment,participantTaskAssignment];
 }
 
-
 // returns a latin square allocation of the array elements. Achieved by simply shifting array elements to the front array.length times
 function latinSquare(array){
-
-	console.log("LatinSquare");
 
 	original = array;
 
@@ -159,7 +148,7 @@ function latinSquare(array){
 	return orders;
 }
 
-// Helper to add a reverse array to the original one.
+// Add a reverse array to the original one.
 function reverseOrderC(array){
 	console.log("Reverse");
 
@@ -172,47 +161,44 @@ function reverseOrderC(array){
 }
 
 
-// Helping Function to get all Permutations of an array that have the same length.
+// Function to get all Permutations of an array that have the same length.
 // Function taken from: http://rextester.com/OUC90847
 function completeCounterbalancing(array, k){
-	console.log("Complete");
 
 	var balancedarray = [];
+	var combinations = [];
+	var indices = [];
 
-    var combinations = [];
-    var indices = [];
-    
-    
-    function run(level, start){
-        for(var i=0; i < array.length; i++){
-            
-            if(!indices[i]){
-            
-                indices[i] = true;
-                
-                combinations[level] = array[i];
-                
-                if(level < k - 1){
-                    run(level + 1, i + 1);
-                } else {
-                	var toAdd = combinations.slice();
-                    balancedarray.push(toAdd);
-                }
-                
-                indices[i] = false;
-            }
-        }
-    }
-    
-    run(0, 0);
+	function run(level, start){
+		for(var i=0; i < array.length; i++){
 
-    return balancedarray;
+			if(!indices[i]){
+
+				indices[i] = true;
+
+				combinations[level] = array[i];
+
+				if(level < k - 1){
+					run(level + 1, i + 1);
+				} else {
+					var toAdd = combinations.slice();
+					balancedarray.push(toAdd);
+				}
+
+				indices[i] = false;
+			}
+		}
+	}
+
+	run(0, 0);
+
+	return balancedarray;
 }
 
-// helping function to get random integer.
+// Function to get random integer between two values.
 // Function taken from: https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Math/math.random
 function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min)) + min;
 }

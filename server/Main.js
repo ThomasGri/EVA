@@ -101,13 +101,16 @@ Meteor.methods({
       checklist.study = study;
 
       // Get Task Metadata.
-      checklist.tasks.forEach(function(task_execution){
+      checklist.tasks.forEach(function(task_execution, index){
 
         task_complete = Tasks.findOne({"_id": task_execution.task_id});
 
         if(!(typeof task_complete.file === "undefined")){
           task_complete.file = Uploads.findOne({"_id": task_complete.file});
         }
+        number = index + 1;
+
+        task_complete.number = number;
 
         task_execution.task = task_complete;
 
