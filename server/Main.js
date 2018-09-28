@@ -17,7 +17,13 @@ Meteor.startup(() => {
   }
 
 
+  template = Studies.find({"_id": 'SZarMMuerLZGrJ94x'}).fetch();
 
+  if(template.length === 0){
+    console.log("No template");
+
+    
+  }
 
 });
 

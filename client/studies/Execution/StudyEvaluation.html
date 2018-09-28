@@ -15,7 +15,7 @@
 	<h2> Warning: Some tasks failed.</h2>
 
 	{{#if failed_tasks.[0]}}
-	<h3>These Tasks failed and influence your counterbalancing. You should should act as described:</h3>
+	<h3>These Tasks failed and influence your counterbalancing. You should act as described:</h3>
 	<p style="font-size:18px"> Remove the test data from this participant and retest with a new participant</p>
 	{{#each failed_tasks.[0]}}
 	<h4>Task {{tasknumber}} failed for Participant {{participant}}.</h4>
@@ -24,7 +24,7 @@
 	{{/if}}
 
 	{{#if failed_tasks.[1]}}
-	<h3> These failed Tasks don't have an impact on your counterbalancing. However the failure might distort the entire dataset. If this is the task you should remove the participant's data. Otherwise the remaining data can be used for evaluation.</h3>
+	<h3> These failed Tasks don't have an impact on your counterbalancing. However the failure might distort the entire dataset. If this is the case you should remove the participant's data. Otherwise the remaining data can be used for evaluation.</h3>
 	{{#each failed_tasks.[1]}}
 	<h4>Task {{tasknumber}} failed for Participant {{participant}}.</h4>
 	<button val={{participant}} onclick={{remove_participant participant}}>Delete Participant</button>

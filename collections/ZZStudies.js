@@ -404,6 +404,7 @@ PracticalPlaningSchema = new SimpleSchema({
     optional: true
   },
   'participant_req.$':{
+    label: "Participat requirements",
     type: String
   },
    practical_url: {

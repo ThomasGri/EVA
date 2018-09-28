@@ -19,12 +19,16 @@ AccountsTemplates.addFields([
 		_id: 'firstName',
 		type: 'text',
 		display_Name: 'First Name',
-		required: true
+		required: true,
+		label: 'First Name',
+		placeholder: 'First Name'
 	},
 	{
 		_id: 'lastName',
 		type: 'text',
 		displayName: 'Last Name',
-		required: true
+		required: true,
+		label: 'Last Name',
+		placeholder: 'Last Name'
 	}
 ]);

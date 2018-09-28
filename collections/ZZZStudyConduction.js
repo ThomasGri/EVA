@@ -114,7 +114,7 @@ Taskarray = new SimpleSchema({
     allowedValues: [0, 1, 2],
      autoform: {
       type:"select2",
-      label: "Completed?",
+      label: "Status",
       options: [
           {label: "Open", value: 0},
           {label: "Completed", value: 1},

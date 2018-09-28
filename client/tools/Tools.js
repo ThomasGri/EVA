@@ -29,7 +29,7 @@ Template.Tools.helpers({
             fields: [ 
                 { key: 'name', label: 'Name' },
                 
-                { key: 'description', label: 'Desciption' },
+                { key: 'description', label: 'Description' },
                 
                 { key: 'url', label: 'Url'},
 
