@@ -282,6 +282,8 @@ Template.NewStudy.helpers({
         var self = this;
         var extend = wizard.mergedData();
 
+        console.log(extend);
+
         extend.counter_balancing = data.counter_balancing_type;
 
         if(routeName == "new-study" || routeName == "copy-study"){

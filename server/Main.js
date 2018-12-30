@@ -16,14 +16,29 @@ Meteor.startup(() => {
     return 'Click on the following link to verify your email address: ' + url;
   }
 
-
+  // General recommended Template
   template = Studies.find({"_id": 'SZarMMuerLZGrJ94x'}).fetch();
 
   if(template.length === 0){
     console.log("No template");
 
-    
+    var template = 
+    {
+      "_id": "SZarMMuerLZGrJ94x",
+      "name": "Recommended Template",
+      "public": true,
+      "createdAt": new Date(),
+      "participants": 6,
+      "filter_tasks": false,
+      "counter_balancing": 0,
+      "author": "ecfCjQgyGLJKE63vW",
+      "status": "In Planning"
+    };
+
+    Studies.insert(template);
   }
+
+  // Example Data for evaluating EVA
 
 });
 

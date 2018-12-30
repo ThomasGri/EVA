@@ -2,15 +2,15 @@
 
 meteor-base@1.4.0
 mobile-experience@1.0.5
-mongo@1.5.0
+mongo@1.6.0
 blaze-html-templates@1.0.4
 reactive-var@1.0.11
 tracker@1.2.0
 
-standard-minifier-js@2.3.4
+standard-minifier-js@2.4.0
 es5-shim@4.8.0
-ecmascript@0.11.1
-shell-server@0.3.1
+ecmascript@0.12.3
+shell-server@0.4.0
 
 kadira:flow-router
 kadira:blaze-layout
@@ -26,7 +26,7 @@ aldeed:schema-index
 
 matb33:bootstrap-glyphicons
 
-accounts-base@1.4.2
+accounts-base@1.4.3
 accounts-password@1.5.1
 
 raix:handlebar-helpers
@@ -57,7 +57,7 @@ cfs:standard-packages
 
 momentjs:moment@=2.10.6
 
-babel-compiler@7.1.1
+babel-compiler@7.2.3
 http@1.4.1
 
 coffeescript@1.0.4			
@@ -67,11 +67,11 @@ meanware:gridfs
 
 semantic:ui
 juliancwirko:postcss
-less@2.7.12
+less@2.8.0
 jquery
 underscore@1.0.10
 cultofcoders:persistent-session
-email
+email@1.2.3
 lyquocnam:sweetalert
 
 meteorhacks:ssr

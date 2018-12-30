@@ -19,7 +19,7 @@ Template.CreateStudy.events({
 
   'click #template':function(event, template){
     event.preventDefault();  
-    FlowRouter.go('/copy-study/PhxCmH9vw6srt7jwE');
+    FlowRouter.go('/copy-study/SZarMMuerLZGrJ94x');
   },
 
   'click #another_template':function(event, template){

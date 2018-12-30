@@ -6,7 +6,7 @@ Studies = new Mongo.Collection('Studies');
 
 Studies.allow({
   insert: function(userId, doc){
-    return !!userId;
+    return true;
   },
   update: function(userId, doc){
     return !!userId;
@@ -93,10 +93,13 @@ GoalSchema = new SimpleSchema({
   author: {
   type: String,
   label: "Author",
+  optional: true,
   autoValue: function(){
     if (this.isInsert) {
+      if(Meteor.isClient){
         return this.userId;
       }
+    }
   },
   autoform: {
    afFieldInput: {
