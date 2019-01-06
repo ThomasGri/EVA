@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import { Email } from 'meteor/email'
+import { Email } from 'meteor/email';
+import { Accounts } from 'meteor/accounts-base';
 
 Meteor.startup(() => {
   // code to run on server at startup
@@ -41,7 +42,9 @@ Meteor.startup(() => {
 		"normal-user"
 	  ]
 	}
-	users.insert(temp);
+	Meteor.users.insert(temp);
+
+	Accounts.setPassword("b5J2ERvac5JoAZGgW", "eragon")
 
 	// Files -- other elements use this. -- Not implemented yet.
 
@@ -183,7 +186,7 @@ Meteor.startup(() => {
       "participants": 6,
       "filter_tasks": false,
       "counter_balancing": 0,
-      "author": "ecfCjQgyGLJKE63vW",
+      "author": "b5J2ERvac5JoAZGgW",
       "status": "In Planning"
     };
 
