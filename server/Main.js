@@ -4,7 +4,7 @@ import { Accounts } from 'meteor/accounts-base';
 
 Meteor.startup(() => {
   // code to run on server at startup
-  process.env.MAIL_URL = "smtps://evaluation.study.tool%40gmail.com:harrypotter1+-@smtp.gmail.com:465";
+  process.env.MAIL_URL = "smtps://evaluation.study.tool%40gmail.com:evaluationtool1+-@smtp.gmail.com:465";
   
   Accounts.emailTemplates.from='evaluation.study.tool@gmail.com';
   Accounts.emailTemplates.sitename='EVA - Plan, Conduct &amp; Evaluate Studies';
@@ -30,13 +30,13 @@ Meteor.startup(() => {
 	  "_id": "b5J2ERvac5JoAZGgW",
 	  "emails": [
 		{
-		  "address": "thomas.grimmeisen@uni-konstanz.com",
+		  "address": "system",
 		  "verified": true
 		}
 	  ],
 	  "profile": {
-		"firstName": "Thomas",
-		"lastName": "Grimmeisen"
+		"firstName": "System",
+		"lastName": "Admin"
 	  },
 	  "roles": [
 		"normal-user"
@@ -44,7 +44,7 @@ Meteor.startup(() => {
 	}
 	Meteor.users.insert(temp);
 
-	Accounts.setPassword("b5J2ERvac5JoAZGgW", "eragon")
+	Accounts.setPassword("b5J2ERvac5JoAZGgW", "system")
 
 	// Files -- other elements use this. -- Not implemented yet.
 
