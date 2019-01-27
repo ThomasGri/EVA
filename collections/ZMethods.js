@@ -107,10 +107,10 @@ MethodInformationSchema = new SimpleSchema({
   label: "Author",
   autoValue: function(){
     if (this.isInsert) {
-      if(Meteor.isClient){
-        return this.userId;
-      }
-      }
+        if(this.userId){
+			return this.userId;
+		}
+    }
   },
   autoform: {
    afFieldInput: {

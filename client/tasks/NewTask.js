@@ -23,8 +23,6 @@ AutoForm.hooks({
           Methods.update({_id: methodsToInsert[i]}, {$push : {method_tasks: taskId}});
         }
       }
-
-      history.back()
     }
   }
 });
