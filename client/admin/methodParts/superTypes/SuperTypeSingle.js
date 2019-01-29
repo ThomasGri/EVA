@@ -15,6 +15,6 @@ Template.SuperTypeSingle.helpers({
 		return SuperTypes.findOne({_id: id});
 	},
 	evaluation_file: ()=>{
-		return getAttachedFile(Tasks, "evaluation_file");
+		return getAttachedFile(SuperTypes, "evaluation_file");
 	},
 });

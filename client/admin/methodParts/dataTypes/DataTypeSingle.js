@@ -15,6 +15,6 @@ Template.DataTypeSingle.helpers({
 		return DataTypes.findOne({_id: id});
 	},
 	evaluation_file: ()=>{
-		return getAttachedFile(Tasks, "evaluation_file");
+		return getAttachedFile(DataTypes, "evaluation_file");
 	},
 });

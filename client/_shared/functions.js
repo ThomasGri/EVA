@@ -83,6 +83,8 @@ getAttachedFile = function(collection, fieldname, id){
   // extract the id of the file
   fileid = parent[fieldname];
 
+  console.log(fileid);
+  
   // return the file
   return Uploads.findOne({_id: fileid});
 }

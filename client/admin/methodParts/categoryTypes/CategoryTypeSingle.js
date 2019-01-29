@@ -15,6 +15,6 @@ Template.CategoryTypeSingle.helpers({
 		return CategoryTypes.findOne({_id: id});
 	},
 	evaluation_file: ()=>{
-		return getAttachedFile(Tasks, "evaluation_file");
+		return getAttachedFile(CategoryTypes, "evaluation_file");
 	},
 });
